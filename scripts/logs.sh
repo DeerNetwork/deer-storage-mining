@@ -13,9 +13,8 @@ logs()
 {
 	case "$1" in
 		chain | teaclave | worker | ipfs)
-			$target=$1
-			shift
-			docker logs $@ $target
+			docker logs $1
+			;;
 		*)
 			log_err "----------Parameter error----------"
 			logs_help
