@@ -1,0 +1,9 @@
+{
+  "chain_args": "--chain testnet",
+  "nodename" : "",
+  "mnemonic" : "",
+  "disk_size": 1,
+  "chain_data_dir": "",
+  "ipfs_data_dir": "",
+  "teaclave_data_dir": ""
+}
