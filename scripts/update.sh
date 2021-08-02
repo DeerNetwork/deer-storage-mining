@@ -48,7 +48,7 @@ update()
 			;;
 		*)
 			log_err "----------Parameter error----------"
-			start_help
+			update_help
 			exit 1
 	esac
 }

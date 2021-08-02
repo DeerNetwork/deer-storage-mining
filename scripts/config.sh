@@ -40,7 +40,7 @@ config_set_all()
 
 	line=$((line+1))
 	local disk_size=""
-	read -p "Enter your disk_size reserved for teaclave in gatebyte: " disk_size
+	read -p "Enter your disk_size reserved for teaclave in 1-1048576 gatebytes: " disk_size
 	disk_size=`echo "$disk_size"`
 	if [[ "$disk_size" =~ ^[0-9]+$ ]] && [[ "$disk_size" -ge 1 ]] && [[ "$disk_size" -le 1048576 ]]; then
 		sleep 0
@@ -81,7 +81,7 @@ config_set_all()
 	if [[ ! -d "$teaclave_data_dir" ]]; then
 		log_err "The teaclave_data_dir is invalid"
 	fi
-	sed -i "${line}c \\  \"teaclave_data_dir\": \"$teaclave_data_dir\"" $installdir/config.json &>/dev/null
+	sed -i "${line}c \\  \"teaclave_data_dir\": \"$teaclave_data_dir\"," $installdir/config.json &>/dev/null
 	log_success "Set teaclave_data_dir: '$teaclave_data_dir' successfully"
 }
 

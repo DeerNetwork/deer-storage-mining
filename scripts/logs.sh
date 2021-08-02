@@ -12,18 +12,10 @@ EOF
 logs()
 {
 	case "$1" in
-		chain)
-			docker logs chain
-			;;
-		teaclave)
-			docker logs teaclave
-			;;
-		worker)
-			docker logs worker
-			;;
-		ipfs)
-			docker logs ipfs
-			;;
+		chain | teaclave | worker | ipfs)
+			$target=$1
+			shift
+			docker logs $@ $target
 		*)
 			log_err "----------Parameter error----------"
 			logs_help
