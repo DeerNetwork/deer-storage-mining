@@ -13,12 +13,7 @@ stop_docker()
 {
 	target=$1
 	log_info "----------Stop $target----------"
-	docker kill $target
-
-	if [ $? -ne 0 ]; then
-		log_err "----------Stop failed----------"
-		exit 1
-	fi
+	docker stop $target || true && docker rm $target || true
 }
 
 stop()
