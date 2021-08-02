@@ -89,7 +89,8 @@ start_ipfs()
 	fi
 
 	local ipfs_data_dir=$(cat $installdir/config.json | jq -r '.ipfs_data_dir')
-	docker run -d --net host --rm --name ipfs --entrypoint "/sbin/tini" -v $ipfs_data_dir:/data/ipfs ipfs/go-ipfs -- /bin/sh -c "/usr/local/bin/start_ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/37773 && /usr/local/bin/start_ipfs config Datastore.StorageMax 250GB && /usr/local/bin/start_ipfs bootstrap add /dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN && /usr/local/bin/start_ipfs daemon --enable-gc --migrate=true"
+	local ipfs_boot_node=$(cat $installdir/config.json | jq -r '.ipfs_boot_node')
+	docker run -d --net host --rm --name ipfs --entrypoint "/sbin/tini" -v $ipfs_data_dir:/data/ipfs ipfs/go-ipfs -- /bin/sh -c "/usr/local/bin/start_ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/37773 && /usr/local/bin/start_ipfs config Datastore.StorageMax 250GB && /usr/local/bin/start_ipfs bootstrap add $ipfs_boot_node && /usr/local/bin/start_ipfs daemon --enable-gc --migrate=true"
 
 	if [ $? -ne 0 ]; then
 		log_err "----------Start ipfs failed----------"
