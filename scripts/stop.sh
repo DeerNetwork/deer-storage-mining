@@ -13,7 +13,7 @@ stop_docker()
 {
 	target=$1
 	log_info "----------Stop $target----------"
-	docker stop $target || true && docker rm $target || true
+	docker stop $target || true
 }
 
 stop()
