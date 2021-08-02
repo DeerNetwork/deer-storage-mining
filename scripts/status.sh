@@ -47,7 +47,7 @@ status()
 	chain		${node_status}		${node_block}
 	teaclave	${teaclave_status}
 	worker		${worker_status}
-	go-ipfs 	${ipfs_status}
+	ipfs    	${ipfs_status}
 ------------------------------------------------------------------------
 EOF
 }
