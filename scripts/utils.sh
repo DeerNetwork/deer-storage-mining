@@ -68,12 +68,6 @@ exec_docker_pull() {
 	docker pull $image
 }
 
-exec_docker_restart() {
-	exist_service $1
-	log_info "----------Restart $1----------"
-	docker restart $1
-}
-
 exec_docker_stop() {
 	exist_service $1
 	log_info "----------Stop $1----------"
@@ -84,7 +78,7 @@ exec_docker_rm() {
 	exist_service $1
 	log_info "----------Remove $1----------"
 	local status=$(check_docker_status $1)
-	if  [ "$status" != "miss" ]; then
+	if  [ "$status" != "missed" ]; then
 		docker rm -f $1
 	fi
 }

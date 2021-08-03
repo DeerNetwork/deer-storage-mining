@@ -13,7 +13,8 @@ restart()
 {
 	case "$1" in
 		chain | teaclave | worker | ipfs)
-			exec_docker_restart $1
+			exec_docker_rm $1
+			nft360 start $1
 			;;
 		*)
 			restart_help
