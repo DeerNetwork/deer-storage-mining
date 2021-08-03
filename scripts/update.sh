@@ -43,7 +43,7 @@ update()
 				update_help
 				exit 1
 			fi
-			exec_docker_pull $2
+			exec_docker_pull $1
 			;;
 		*)
 			update_help
