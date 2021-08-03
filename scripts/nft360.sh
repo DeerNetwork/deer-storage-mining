@@ -8,6 +8,7 @@ source $scriptdir/config.sh
 source $scriptdir/install_nft360.sh
 source $scriptdir/logs.sh
 source $scriptdir/start.sh
+source $scriptdir/restart.sh
 source $scriptdir/status.sh
 source $scriptdir/stop.sh
 source $scriptdir/uninstall.sh
@@ -18,14 +19,15 @@ help()
 cat << EOF
 Usage:
 	help						show help information
-	install {init|isgx|dcap}			install your nft360 node
+	install {init|isgx|dcap}			install your nft360 services
 	uninstall               			uninstall your nft360 scripts
-	start {all|chain|teaclave|worker|ipfs}		start your node modules
+	start {all|chain|teaclave|worker|ipfs}		start your nft360 services
 	stop {all|chain|teaclave|worker|ipfs}		use docker kill to stop module
-	config						configure your nft360 node
+	restart {chain|teaclave|worker|ipfs}		show services logs
+	config						configure your nft360 
 	status						display the running status of all components
-	update {scripts|images}				update nft360 node
-	logs {chain|teaclave|worker|ipfs}		show node module logs
+	update {scripts|images|image}			update nft360 services
+	logs {chain|teaclave|worker|ipfs}		show services logs
 EOF
 exit 0
 }
@@ -42,6 +44,10 @@ case "$1" in
 		shift 1
 		start $@
 		;;
+	restart)
+		shift 1
+		restart $@
+		;;
 	stop)
 		stop $2
 		;;
@@ -49,7 +55,8 @@ case "$1" in
 		status $@
 		;;
 	update)
-		update $2
+		shift 1
+		update $@
 		;;
 	logs)
 		logs $2

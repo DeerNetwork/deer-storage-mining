@@ -4,9 +4,11 @@ update_help()
 {
 cat << EOF
 Usage:
-	update {self|images}				update nft360 node
+	update {self|images}				update nft360 services 
+	update image {chain|teaclave|worker|ipfs} 	update sinle service
 EOF
 }
+
 
 update_scripts()
 {
@@ -26,17 +28,6 @@ update_scripts()
 }
 
 
-update_images()
-{
-	log_info "----------Update images----------"
-
-	stop_and_clean_containers
-
-	download_docker_images
-
-	log_success "----------Update success----------"
-}
-
 update()
 {
 	case "$1" in
@@ -44,10 +35,17 @@ update()
 			update_scripts
 			;;
 		images)
-			update_images
+			batch_exec exec_docker_pull
+			;;
+		image)
+			shift 1
+			if [ -z "$1" ]; then
+				update_help
+				exit 1
+			fi
+			exec_docker_pull $2
 			;;
 		*)
-			log_err "----------Parameter error----------"
 			update_help
 			exit 1
 	esac

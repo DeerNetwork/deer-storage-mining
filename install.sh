@@ -6,14 +6,15 @@ installdir=/opt/nft360
 
 install_scripts()
 {
-	echo "--------------Install nft360 node-------------"
+	echo "----------Install nft360----------"
 
 	if [ -f /usr/bin/nft360 ]; then
-		echo "Uninstall old nft360 node"
-		nft360 uninstall
+		rm /usr/bin/nft360
+		rm -rf $installdir/scripts
 	fi
 	echo "Install nft360 data"
 	mkdir -p $installdir
+	cp $installdir/config.json $installdir/config.json.bak 
 	cp $basedir/config.json $installdir/
 	cp -r $basedir/scripts $installdir/scripts
 
@@ -21,7 +22,7 @@ install_scripts()
 	chmod +x $installdir/scripts/nft360.sh
 	ln -s $installdir/scripts/nft360.sh /usr/bin/nft360
 
-	echo "--------------Install success-------------"
+	echo "----------Install success----------"
 }
 
 if [ $(id -u) -ne 0 ]; then

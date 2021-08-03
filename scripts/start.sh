@@ -8,8 +8,23 @@ Usage:
 EOF
 }
 
+check_before_start() {
+	local status=$(check_docker_status $1)
+	if [ "$status" = "running" ]; then
+		log_info "---------Service $1 is running----------"
+		return 1
+	elif [ "$status" = "exited" ]; then
+		exec_docker_rm $1
+	fi
+	return 0
+}
+
 start_chain()
 {
+	check_before_start chain
+	if [ $? -eq 1 ]; then
+		return
+	fi
 	log_info "---------Start chain----------"
 	local node_name=$(cat $installdir/config.json | jq -r '.nodename')
 	if [ -z $node_name ]; then
@@ -26,7 +41,7 @@ start_chain()
 
 	local chain_data_dir=$(cat $installdir/config.json | jq -r '.chain_data_dir')
 	local chain_args=$(cat $installdir/config.json | jq -r '.chain_args')
-	docker run -d --net host --rm --name chain -e NODE_NAME=$node_name -v $chain_data_dir:/root/data nft360/nft360 \
+	docker run -d --net host --name chain -e NODE_NAME=$node_name -v $chain_data_dir:/root/data nft360/nft360 \
 		$chain_args --name $node_name --base-path /root/data --validator --pruning archive \
 		--port 30666 --rpc-port 9933 --ws-port 9944 --wasm-execution compiled --in-peers 75 --out-peers 75 
 	if [ $? -ne 0 ]; then
@@ -37,6 +52,10 @@ start_chain()
 
 start_teaclave()
 {
+	check_before_start teaclave
+	if [ $? -eq 1 ]; then
+		return
+	fi
 	log_info "----------Start teaclave----------"
 	if [ ! -z $(docker ps -qf "name=teaclave") ]; then
 		log_info "---------teaclave already exists----------"
@@ -49,9 +68,9 @@ start_teaclave()
 	local disk_size=$(cat $installdir/config.json | jq -r '.disk_size')
 
 	if [ x"$res_sgx" == x"sgx" ] && [ x"$res_isgx" == x"" ]; then
-		docker run -d --net host --rm --name teaclave -v $teaclave_data_dir:/root/data --device /dev/sgx/enclave -e EXTRA_OPTS="--disk-size $disk_size" --device /dev/sgx/provision nft360/nft360-storage-teaclave
+		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/sgx/enclave -e EXTRA_OPTS="--disk-size $disk_size" --device /dev/sgx/provision nft360/nft360-storage-teaclave
 	elif [ x"$res_isgx" == x"isgx" ] && [ x"$res_sgx" == x"" ]; then
-		docker run -d --net host --rm --name teaclave -v $teaclave_data_dir:/root/data --device /dev/isgx -e EXTRA_OPTS="--disk-size $disk_size" nft360/nft360-storage-teaclave 
+		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/isgx -e EXTRA_OPTS="--disk-size $disk_size" nft360/nft360-storage-teaclave 
 	else
 		log_err "----------sgx/dcap driver not install----------"
 		exit 1
@@ -65,6 +84,10 @@ start_teaclave()
 
 start_worker()
 {
+	check_before_start worker
+	if [ $? -eq 1 ]; then
+		return
+	fi
 	log_info "----------Start worker----------"
 	if [ ! -z $(docker ps -qf "name=worker") ]; then
 		log_info "---------worker already exists----------"
@@ -73,7 +96,7 @@ start_worker()
 
 	local mnemonic=$(cat $installdir/config.json | jq -r '.mnemonic')
 
-	docker run -d --net host --rm --name worker -e WORKER__MNEMONIC="$mnemonic" nft360/nft360-storage-worker
+	docker run -d --net host --name worker -e WORKER__MNEMONIC="$mnemonic" nft360/nft360-storage-worker
 	if [ $? -ne 0 ]; then
 		log_err "----------Start worker failed----------"
 		exit 1
@@ -82,6 +105,10 @@ start_worker()
 
 start_ipfs()
 {
+	check_before_start ipfs
+	if [ $? -eq 1 ]; then
+		return
+	fi
 	log_info "----------Start ifps----------"
 	if [ ! -z $(docker ps -qf "name=ifps") ]; then
 		log_info "---------ipfs already exists----------"
@@ -90,7 +117,7 @@ start_ipfs()
 
 	local ipfs_data_dir=$(cat $installdir/config.json | jq -r '.ipfs_data_dir')
 	local ipfs_boot_node=$(cat $installdir/config.json | jq -r '.ipfs_boot_node')
-	docker run -d --net host --rm --name ipfs --entrypoint "/sbin/tini" -v $ipfs_data_dir:/data/ipfs ipfs/go-ipfs -- /bin/sh -c "/usr/local/bin/start_ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/37773 && /usr/local/bin/start_ipfs config Datastore.StorageMax 250GB && /usr/local/bin/start_ipfs bootstrap add $ipfs_boot_node && /usr/local/bin/start_ipfs daemon --enable-gc --migrate=true"
+	docker run -d --net host --name ipfs --entrypoint "/sbin/tini" -v $ipfs_data_dir:/data/ipfs ipfs/go-ipfs -- /bin/sh -c "/usr/local/bin/start_ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/37773 && /usr/local/bin/start_ipfs config Datastore.StorageMax 250GB && /usr/local/bin/start_ipfs bootstrap add $ipfs_boot_node && /usr/local/bin/start_ipfs daemon --enable-gc --migrate=true"
 
 	if [ $? -ne 0 ]; then
 		log_err "----------Start ipfs failed----------"
@@ -122,11 +149,9 @@ start()
 			start_ipfs
 			start_chain
 			start_teaclave
-			sleep 30
 			start_worker
 			;;
 		*)
-			log_err "----------Parameter error----------"
 			start_help
 			exit 1
 	esac
