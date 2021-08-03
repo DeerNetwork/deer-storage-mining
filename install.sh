@@ -14,8 +14,10 @@ install_scripts()
 	fi
 	echo "Install nft360 data"
 	mkdir -p $installdir
-	cp $installdir/config.json $installdir/config.json.bak 
-	cp $basedir/config.json $installdir/
+	if [ -f $installdir/config.json ]; then
+		# cp $installdir/config.json $installdir/config.json.bak 
+		# cp $basedir/config.json $installdir/
+	fi
 	cp -r $basedir/scripts $installdir/scripts
 
 	echo "Install nft360 command line tool"
