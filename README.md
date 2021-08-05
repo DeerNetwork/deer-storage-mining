@@ -22,7 +22,7 @@ Go to the **nft360** folder
 
 ```bash
 chmod +x install.sh
-sudo ./install.sh en
+sudo ./install.sh
 ```
 
 #### How to use
