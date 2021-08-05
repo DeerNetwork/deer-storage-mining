@@ -36,11 +36,11 @@ Enter information as prompted.
 
 ##### Start minner
 ```bash
-sudo nft360 start
+sudo nft360 start all
 ```
 ##### Start docker separately
 ```bash
-sudo nft360 start node
+sudo nft360 start chain
 sudo nft360 start teaclave
 sudo nft360 start worker
 sudo nft360 start ipfs
@@ -48,11 +48,11 @@ sudo nft360 start ipfs
 
 ##### Stop minner
 ```bash
-sudo nft360 stop
+sudo nft360 stop all
 ```
 ##### Stop docker separately
 ```bash
-sudo nft360 stop node
+sudo nft360 stop chain
 sudo nft360 stop teaclave
 sudo nft360 stop worker
 sudo nft360 stop ipfs
@@ -63,15 +63,8 @@ sudo nft360 stop ipfs
 ###### Update nft360 dockers without clean data
 
 ```bash
-sudo nft360 update
+sudo nft360 update images
 ```
-
-###### Update nft360 dockers with clean data
-
-```bash
-sudo nft360 update clean
-```
-
 ###### Now you can auto update the script 
 
 ```bash
@@ -87,7 +80,7 @@ sudo nft360 status
 ##### Get Logs
 
 ```bash
-sudo nft360 logs node
+sudo nft360 logs chain
 sudo nft360 logs teaclave
 sudo nft360 logs worker
 sudo nft360 logs ipfs
