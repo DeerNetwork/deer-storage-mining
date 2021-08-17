@@ -4,8 +4,9 @@ update_help()
 {
 cat << EOF
 Usage:
-	update {self|images}				update nft360 services 
-	update image {chain|teaclave|worker|ipfs} 	update sinle service
+	update scripts                      		update nft360 scripts
+	update images                      		update all service images
+	update image {chain|teaclave|worker|ipfs} 	update single service
 EOF
 }
 

@@ -23,7 +23,7 @@ Usage:
 	uninstall               			uninstall your nft360 scripts
 	start {all|chain|teaclave|worker|ipfs}		start your nft360 services
 	stop {all|chain|teaclave|worker|ipfs}		use docker kill to stop module
-	restart {chain|teaclave|worker|ipfs}		show services logs
+	restart {chain|teaclave|worker|ipfs}		restart nft360 services
 	config						configure your nft360 
 	status						display the running status of all components
 	update {scripts|images|image}			update nft360 services
