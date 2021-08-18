@@ -53,8 +53,8 @@ config_set_all()
 
 	line=$((line+1))
 	local chain_data_dir=""
-	read -p "Enter your chain_data_dir [/opt/nft360/data/chain]: " chain_data_dir
-	chain_data_dir=`echo "${chain_data_dir:-"/opt/nft360/data/chain"}"`
+	read -p "Enter your chain_data_dir [/opt/deer/data/chain]: " chain_data_dir
+	chain_data_dir=`echo "${chain_data_dir:-"/opt/deer/data/chain"}"`
 	mkdir -p "$chain_data_dir" > /dev/null 2>&1
 	if [[ ! -d "$chain_data_dir" ]]; then
 		log_err "The chain_data_dir is invalid"
@@ -64,8 +64,8 @@ config_set_all()
 
 	line=$((line+1))
 	local ipfs_data_dir=""
-	read -p "Enter your ipfs_data_dir [/opt/nft360/data/ipfs]: " ipfs_data_dir
-	ipfs_data_dir=`echo "${ipfs_data_dir:-"/opt/nft360/data/ipfs"}"`
+	read -p "Enter your ipfs_data_dir [/opt/deer/data/ipfs]: " ipfs_data_dir
+	ipfs_data_dir=`echo "${ipfs_data_dir:-"/opt/deer/data/ipfs"}"`
 	mkdir -p "$ipfs_data_dir" > /dev/null 2>&1
 	if [[ ! -d "$ipfs_data_dir" ]]; then
 		log_err "The ipfs_data_dir is invalid"
@@ -75,8 +75,8 @@ config_set_all()
 
 	line=$((line+1))
 	local teaclave_data_dir=""
-	read -p "Enter your teaclave_data_dir [/opt/nft360/data/teaclave]: " teaclave_data_dir
-	teaclave_data_dir=`echo "${teaclave_data_dir:-"/opt/nft360/data/teaclave"}"`
+	read -p "Enter your teaclave_data_dir [/opt/deer/data/teaclave]: " teaclave_data_dir
+	teaclave_data_dir=`echo "${teaclave_data_dir:-"/opt/deer/data/teaclave"}"`
 	mkdir -p "$teaclave_data_dir" > /dev/null 2>&1
 	if [[ ! -d "$teaclave_data_dir" ]]; then
 		log_err "The teaclave_data_dir is invalid"

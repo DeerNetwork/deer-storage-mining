@@ -4,7 +4,7 @@ logs_help()
 {
 cat << EOF
 Usage:
-	logs {chain|teaclave|worker|ipfs}		show nft360 service logs
+	logs {chain|teaclave|worker|ipfs}		show deer service logs
 EOF
 }
 

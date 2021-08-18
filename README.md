@@ -16,9 +16,9 @@ sudo ./sgx_enable
 sudo reboot
 ```
 
-#### Install the nft360 Scripts
+#### Install the deer Scripts
 
-Go to the **nft360** folder
+Go to the **deer** folder
 
 ```bash
 chmod +x install.sh
@@ -30,70 +30,70 @@ sudo ./install.sh
 ##### Install
 
 ```bash
-sudo nft360 install init
+sudo deer install init
 ```
 Enter information as prompted.
 
 ##### Start minner
 ```bash
-sudo nft360 start all
+sudo deer start all
 ```
 ##### Start docker separately
 ```bash
-sudo nft360 start chain
-sudo nft360 start teaclave
-sudo nft360 start worker
-sudo nft360 start ipfs
+sudo deer start chain
+sudo deer start teaclave
+sudo deer start worker
+sudo deer start ipfs
 ```
 
 ##### Stop minner
 ```bash
-sudo nft360 stop all
+sudo deer stop all
 ```
 ##### Stop docker separately
 ```bash
-sudo nft360 stop chain
-sudo nft360 stop teaclave
-sudo nft360 stop worker
-sudo nft360 stop ipfs
+sudo deer stop chain
+sudo deer stop teaclave
+sudo deer stop worker
+sudo deer stop ipfs
 ```
 
-##### Update nft360 Dockers
+##### Update deer Dockers
 
-###### Update nft360 dockers without clean data
+###### Update deer dockers without clean data
 
 ```bash
-sudo nft360 update images
+sudo deer update images
 ```
 ###### Now you can auto update the script 
 
 ```bash
-sudo nft360 update script
+sudo deer update script
 ```
 
 ##### Check the docker status
 
 ```bash
-sudo nft360 status
+sudo deer status
 ```
 
 ##### Get Logs
 
 ```bash
-sudo nft360 logs chain
-sudo nft360 logs teaclave
-sudo nft360 logs worker
-sudo nft360 logs ipfs
+sudo deer logs chain
+sudo deer logs teaclave
+sudo deer logs worker
+sudo deer logs ipfs
 ```
 
 ##### Check the config of minner
 
 
 ```bash
-sudo nft360 config show
+sudo deer config show
 ```
 ##### Setup the config of minner
 
 ```bash
-sudo nft360 config set
+sudo deer config set
 ```

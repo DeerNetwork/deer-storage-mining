@@ -1,9 +1,9 @@
 #!/bin/bash
 
 service_images=( 
-	"chain:nft360/nft360"
-	"teaclave:nft360/nft360-storage-teaclave"
-	"worker:nft360/nft360-storage-worker"
+	"chain:deer/deer"
+	"teaclave:deer/deer-storage-teaclave"
+	"worker:deer/deer-storage-worker"
 	"ipfs:ipfs/go-ipfs"
 )
 

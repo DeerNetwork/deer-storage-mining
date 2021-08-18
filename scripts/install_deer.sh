@@ -26,11 +26,11 @@ download_docker_images()
 	log_info "----------Download docker images----------"
 	local res=0
 
-	docker pull nft360/nft360
+	docker pull deer/deer
 	res=$(($?|$res))
-	docker pull nft360/nft360-storage-teaclave
+	docker pull deer/deer-storage-teaclave
 	res=$(($?|$res))
-	docker pull nft360/nft360-storage-worker
+	docker pull deer/deer-storage-worker
 	res=$(($?|$res))
 	docker pull ipfs/go-ipfs
 	res=$(($?|$res))

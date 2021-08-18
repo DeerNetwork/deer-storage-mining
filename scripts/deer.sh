@@ -1,11 +1,11 @@
 #!/bin/bash
 
-installdir=/opt/nft360
+installdir=/opt/deer
 scriptdir=$installdir/scripts
 
 source $scriptdir/utils.sh
 source $scriptdir/config.sh
-source $scriptdir/install_nft360.sh
+source $scriptdir/install_deer.sh
 source $scriptdir/logs.sh
 source $scriptdir/start.sh
 source $scriptdir/restart.sh
@@ -19,14 +19,14 @@ help()
 cat << EOF
 Usage:
 	help						show help information
-	install {init|isgx|dcap}			install your nft360 services
-	uninstall               			uninstall your nft360 scripts
-	start {all|chain|teaclave|worker|ipfs}		start your nft360 services
+	install {init|isgx|dcap}			install your deer services
+	uninstall               			uninstall your deer scripts
+	start {all|chain|teaclave|worker|ipfs}		start your deer services
 	stop {all|chain|teaclave|worker|ipfs}		use docker kill to stop module
-	restart {chain|teaclave|worker|ipfs}		restart nft360 services
-	config						configure your nft360 
+	restart {chain|teaclave|worker|ipfs}		restart deer services
+	config						configure your deer 
 	status						display the running status of all components
-	update {scripts|images|image}			update nft360 services
+	update {scripts|images|image}			update deer services
 	logs {chain|teaclave|worker|ipfs}		show services logs
 EOF
 exit 0
