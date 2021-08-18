@@ -1,9 +1,9 @@
 #!/bin/bash
 
 service_images=( 
-	"chain:deer/deer"
-	"teaclave:deer/deer-storage-teaclave"
-	"worker:deer/deer-storage-worker"
+	"chain:deernetwork/deer"
+	"teaclave:deernetwork/deer-storage-teaclave"
+	"worker:deernetwork/deer-storage-worker"
 	"ipfs:ipfs/go-ipfs"
 )
 

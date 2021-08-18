@@ -26,11 +26,11 @@ download_docker_images()
 	log_info "----------Download docker images----------"
 	local res=0
 
-	docker pull deer/deer
+	docker pull deernetwork/deer
 	res=$(($?|$res))
-	docker pull deer/deer-storage-teaclave
+	docker pull deernetwork/deer-storage-teaclave
 	res=$(($?|$res))
-	docker pull deer/deer-storage-worker
+	docker pull deernetwork/deer-storage-worker
 	res=$(($?|$res))
 	docker pull ipfs/go-ipfs
 	res=$(($?|$res))

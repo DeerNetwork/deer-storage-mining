@@ -41,7 +41,7 @@ start_chain()
 
 	local chain_data_dir=$(cat $installdir/config.json | jq -r '.chain_data_dir')
 	local chain_args=$(cat $installdir/config.json | jq -r '.chain_args')
-	docker run -d --net host --name chain -e NODE_NAME=$node_name -v $chain_data_dir:/root/data deer/deer \
+	docker run -d --net host --name chain -e NODE_NAME=$node_name -v $chain_data_dir:/root/data deernetwork/deer \
 		$chain_args --name $node_name --base-path /root/data --validator --pruning archive \
 		--port 30666 --rpc-port 9933 --ws-port 9944 --wasm-execution compiled --in-peers 75 --out-peers 75 
 	if [ $? -ne 0 ]; then
@@ -68,9 +68,9 @@ start_teaclave()
 	local disk_size=$(cat $installdir/config.json | jq -r '.disk_size')
 
 	if [ x"$res_sgx" == x"sgx" ] && [ x"$res_isgx" == x"" ]; then
-		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/sgx/enclave -e EXTRA_OPTS="--disk-size $disk_size" --device /dev/sgx/provision deer/deer-storage-teaclave
+		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/sgx/enclave -e EXTRA_OPTS="--disk-size $disk_size" --device /dev/sgx/provision deernetwork/deer-storage-teaclave
 	elif [ x"$res_isgx" == x"isgx" ] && [ x"$res_sgx" == x"" ]; then
-		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/isgx -e EXTRA_OPTS="--disk-size $disk_size" deer/deer-storage-teaclave 
+		docker run -d --net host --name teaclave -v $teaclave_data_dir:/root/data --device /dev/isgx -e EXTRA_OPTS="--disk-size $disk_size" deernetwork/deer-storage-teaclave 
 	else
 		log_err "----------sgx/dcap driver not install----------"
 		exit 1

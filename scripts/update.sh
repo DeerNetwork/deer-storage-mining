@@ -16,7 +16,7 @@ update_scripts()
 	log_info "----------Update deer script----------"
 
 	mkdir -p /tmp/deer
-	wget https://github.com/deer/deer-storage-mining/archive/main.zip -O /tmp/deer/main.zip
+	wget https://github.com/DeerNetwork/deer-storage-mining/archive/main.zip -O /tmp/deer/main.zip
 	unzip /tmp/deer/main.zip -d /tmp/deer
 	rm -rf /opt/deer/scripts
 	cp -r /tmp/deer/deer-storage-mining-main/scripts /opt/deer/scripts
