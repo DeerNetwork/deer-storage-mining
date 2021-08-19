@@ -118,7 +118,7 @@ start_ipfs()
 
 	local ipfs_data_dir=$(cat $config_json | jq -r '.ipfs_data_dir')
 	local network=$(cat $config_json | jq -r '.network')
-	local ipfs_boot_node="/dnsaddr/w1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
+	local ipfs_boot_node="/dnsaddr/w1.ipfs.deernetwork.org/p2p/12D3KooWBDJaSnEbMcoFMi14ZGStaouTBuEUPusToNx5LahS5MXt"
 	if [ x"$network" = x"testnet" ]; then
 		ipfs_boot_node="/dnsaddr/t1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
 	fi
