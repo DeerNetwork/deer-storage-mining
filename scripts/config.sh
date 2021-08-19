@@ -8,7 +8,6 @@ Usage:
 	help			show help information
 	show			show configurations
 	set			set configurations
-	network      		choose mainnet or testnet
 EOF
 }
 
@@ -83,19 +82,6 @@ config_set_all()
 	log_success "Set teaclave_data_dir: '$teaclave_data_dir' successfully"
 }
 
-config_set_network()
-{
-	local network=""
-	read -p "Choose network: [mainnet|testnet] " network
-	network=`echo "$network"`
-	if [ x"$network" == x"mainnet" ] || [ x"$network" == x"testnet" ]; then
-		jq '.network = "'$network'"' $config_json | sponge $config_json
-	else
-		log_err "Network must be mainnet or testnet"
-		exit 1
-	fi
-	log_success "Set network: '$network' successfully"
-}
 
 config()
 {
@@ -105,9 +91,6 @@ config()
 			;;
 		set)
 			config_set_all
-			;;
-		network)
-			config_set_network
 			;;
 		*)
 			config_help

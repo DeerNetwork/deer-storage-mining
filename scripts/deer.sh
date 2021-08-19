@@ -26,11 +26,23 @@ Usage:
 	stop {all|chain|teaclave|worker|ipfs}		use docker kill to stop module
 	restart {chain|teaclave|worker|ipfs}		restart deer services
 	config						configure your deer 
+	network	{mainnet|testnet}			choose network
 	status						display the running status of all components
 	update {scripts|images|image}			update deer services
 	logs {chain|teaclave|worker|ipfs}		show services logs
 EOF
 exit 0
+}
+
+set_network() {
+	network=$1
+	if [ x"$network" == x"mainnet" ] || [ x"$network" == x"testnet" ]; then
+		jq '.network = "'$network'"' $config_json | sponge $config_json
+	else
+		log_err "Network must be mainnet or testnet"
+		exit 1
+	fi
+	log_success "Set network: '$network' successfully"
 }
 
 
@@ -40,6 +52,9 @@ case "$1" in
 		;;
 	config)
 		config $2
+		;;
+	network)
+		set_network $2
 		;;
 	start)
 		shift 1
