@@ -118,9 +118,9 @@ start_ipfs()
 
 	local ipfs_data_dir=$(cat $config_json | jq -r '.ipfs_data_dir')
 	local network=$(cat $config_json | jq -r '.network')
-	local ipfs_boot_node="/dnsaddr/t1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
+	local ipfs_boot_node="/dnsaddr/w1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
 	if [ x"$network" = x"testnet" ]; then
-		ipfs_boot_node="/dnsaddr/w1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
+		ipfs_boot_node="/dnsaddr/t1.ipfs.deernetwork.org/p2p/12D3KooWHy8L7J7WjYrGFQyXSewUFRVe2vAzQbHm3Wu1LZTPjS7H"
 	fi
 	docker run -d --net host --name ipfs --entrypoint "/sbin/tini" -v $ipfs_data_dir:/data/ipfs $(get_docker_image ipfs) -- /bin/sh -c "/usr/local/bin/start_ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/37773 && /usr/local/bin/start_ipfs config Datastore.StorageMax 250GB && /usr/local/bin/start_ipfs bootstrap add $ipfs_boot_node && /usr/local/bin/start_ipfs daemon --enable-gc --migrate=true"
 
