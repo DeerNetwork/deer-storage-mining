@@ -10,7 +10,7 @@ install_depenencies()
 	fi
 
 	log_info "----------Install depenencies----------"
-	apt-get install -y jq curl wget unzip zip
+	apt-get install -y jq curl wget unzip zip moreutils
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 	add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 	apt-get install -y docker-ce docker-ce-cli containerd.io dkms
@@ -26,13 +26,13 @@ download_docker_images()
 	log_info "----------Download docker images----------"
 	local res=0
 
-	docker pull deernetwork/deer
+	docker pull $(get_docker_image chain)
 	res=$(($?|$res))
-	docker pull deernetwork/deer-storage-teaclave
+	docker pull $(get_docker_image teaclave)
 	res=$(($?|$res))
-	docker pull deernetwork/deer-storage-worker
+	docker pull $(get_docker_image worker)
 	res=$(($?|$res))
-	docker pull ipfs/go-ipfs
+	docker pull $(get_docker_image ipfs) 
 	res=$(($?|$res))
 
 	if [ $res -ne 0 ]; then

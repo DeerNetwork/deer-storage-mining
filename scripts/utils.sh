@@ -4,7 +4,7 @@ service_images=(
 	"chain:deernetwork/deer"
 	"teaclave:deernetwork/deer-storage-teaclave"
 	"worker:deernetwork/deer-storage-worker"
-	"ipfs:ipfs/go-ipfs"
+	"ipfs:deernetwork/go-ipfs"
 )
 
 echo_c()
@@ -32,7 +32,7 @@ check_docker_status()
 	local exist=`docker inspect --format '{{.State.Running}}' $1 2>/dev/null`
 	if [ x"${exist}" == x"true" ]; then
 		echo "running"
-	elif [ "${exist}" == "false" ]; then
+	elif [ x"${exist}" == x"false" ]; then
 		echo "exited"
 	else
 		echo "missed"
@@ -40,10 +40,15 @@ check_docker_status()
 }
 
 get_docker_image() {
+	local network=$(cat $config_json | jq -r '.network')
+	local tag=latest
+	if [ x"$network" = x"mainnet" ]; then
+		tag=mainnet
+	fi
 	for item in "${service_images[@]}" ; do
 		name="${item%%:*}"
 		if [ "$name" = "$1" ]; then
-			echo "${item##*:}"
+			echo "${item##*:}:${tag}"
 		fi
 	done
 }

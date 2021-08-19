@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 config_help()
 {
 cat << EOF
@@ -7,27 +8,28 @@ Usage:
 	help			show help information
 	show			show configurations
 	set			set configurations
+	network      		choose mainnet or testnet
 EOF
 }
 
 config_show()
 {
-	cat $installdir/config.json | jq .
+	cat $config_json | jq .
 }
+
 
 config_set_all()
 {
-	line=2
+
 	local node_name=""
 	read -p "Enter node name: " node_name
 	while [[ x"$node_name" =~ \ |\' || -z "$node_name" ]]; do
 		read -p "The node name can't contain spaces, please re-enter：" node_name
 	done
 	node_name=`echo "$node_name"`
-	sed -i "${line}c \\  \"nodename\": \"$node_name\"," $installdir/config.json &>/dev/null
+	jq '.nodename = "'$node_name'"' $config_json | sponge $config_json
 	log_success "Set node name: '$node_name' successfully"
 
-	line=$((line+1))
 	local mnemonic=""
 	read -p "Enter your controllor mnemonic : " mnemonic
 	mnemonic=`echo "$mnemonic"`
@@ -35,10 +37,9 @@ config_set_all()
 		log_err "Mnemonic cannot be empty"
 		exit 1
 	fi
-	sed -i "${line}c \\  \"mnemonic\": \"$mnemonic\"," $installdir/config.json &>/dev/null
+	jq '.mnemonic = "'$mnemonic'"' $config_json | sponge $config_json
 	log_success "Set your controllor mnemonic: '$mnemonic' successfully"
 
-	line=$((line+1))
 	local disk_size=""
 	read -p "Enter your disk_size reserved for teaclave in 1-1048576 gatebytes: " disk_size
 	disk_size=`echo "$disk_size"`
@@ -48,10 +49,9 @@ config_set_all()
 		log_err "The disk_size should be integer in [1, 1048576]"
 		exit 1
 	fi
-	sed -i "${line}c \\  \"disk_size\": $disk_size," $installdir/config.json &>/dev/null
+	jq '.disk_size = "'$disk_size'"' $config_json | sponge $config_json
 	log_success "Set disk_size: '$disk_size' successfully"
 
-	line=$((line+1))
 	local chain_data_dir=""
 	read -p "Enter your chain_data_dir [/opt/deer/data/chain]: " chain_data_dir
 	chain_data_dir=`echo "${chain_data_dir:-"/opt/deer/data/chain"}"`
@@ -59,10 +59,9 @@ config_set_all()
 	if [[ ! -d "$chain_data_dir" ]]; then
 		log_err "The chain_data_dir is invalid"
 	fi
-	sed -i "${line}c \\  \"chain_data_dir\": \"$chain_data_dir\"," $installdir/config.json &>/dev/null
+	jq '.chain_data_dir = "'$chain_data_dir'"' $config_json | sponge $config_json
 	log_success "Set chain_data_dir: '$chain_data_dir' successfully"
 
-	line=$((line+1))
 	local ipfs_data_dir=""
 	read -p "Enter your ipfs_data_dir [/opt/deer/data/ipfs]: " ipfs_data_dir
 	ipfs_data_dir=`echo "${ipfs_data_dir:-"/opt/deer/data/ipfs"}"`
@@ -70,10 +69,9 @@ config_set_all()
 	if [[ ! -d "$ipfs_data_dir" ]]; then
 		log_err "The ipfs_data_dir is invalid"
 	fi
-	sed -i "${line}c \\  \"ipfs_data_dir\": \"$ipfs_data_dir\"," $installdir/config.json &>/dev/null
+	jq '.ipfs_data_dir = "'$ipfs_data_dir'"' $config_json | sponge $config_json
 	log_success "Set ipfs_data_dir: '$ipfs_data_dir' successfully"
 
-	line=$((line+1))
 	local teaclave_data_dir=""
 	read -p "Enter your teaclave_data_dir [/opt/deer/data/teaclave]: " teaclave_data_dir
 	teaclave_data_dir=`echo "${teaclave_data_dir:-"/opt/deer/data/teaclave"}"`
@@ -81,8 +79,22 @@ config_set_all()
 	if [[ ! -d "$teaclave_data_dir" ]]; then
 		log_err "The teaclave_data_dir is invalid"
 	fi
-	sed -i "${line}c \\  \"teaclave_data_dir\": \"$teaclave_data_dir\"," $installdir/config.json &>/dev/null
+	jq '.teaclave_data_dir = "'$teaclave_data_dir'"' $config_json | sponge $config_json
 	log_success "Set teaclave_data_dir: '$teaclave_data_dir' successfully"
+}
+
+config_set_network()
+{
+	local network=""
+	read -p "Choose network: [mainnet|testnet] " network
+	network=`echo "$network"`
+	if [ x"$network" == x"mainnet" ] || [ x"$network" == x"testnet" ]; then
+		jq '.network = "'$network'"' $config_json | sponge $config_json
+	else
+		log_err "Network must be mainnet or testnet"
+		exit 1
+	fi
+	log_success "Set network: '$network' successfully"
 }
 
 config()
@@ -93,6 +105,9 @@ config()
 			;;
 		set)
 			config_set_all
+			;;
+		network)
+			config_set_network
 			;;
 		*)
 			config_help

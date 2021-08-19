@@ -2,6 +2,7 @@
 
 installdir=/opt/deer
 scriptdir=$installdir/scripts
+config_json=$installdir/config.json
 
 source $scriptdir/utils.sh
 source $scriptdir/config.sh
