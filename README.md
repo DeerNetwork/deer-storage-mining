@@ -29,6 +29,8 @@ sudo ./install.sh
 
 ##### Install
 
+> For testnet, Run `sudo deer network testnet`
+
 ```bash
 sudo deer install init
 ```

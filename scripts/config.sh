@@ -27,7 +27,7 @@ config_set_all()
 		read -p "The node name can't contain spaces, please re-enter：" node_name
 	done
 	node_name=`echo "$node_name"`
-	jq '.nodename = "'$node_name'"' $config_json | sponge $config_json
+	jq '.nodename = "'"$node_name"'"' $config_json | sponge $config_json
 	log_success "Set node name: '$node_name' successfully"
 
 	local mnemonic=""
@@ -37,7 +37,7 @@ config_set_all()
 		log_err "Mnemonic cannot be empty"
 		exit 1
 	fi
-	jq '.mnemonic = "'$mnemonic'"' $config_json | sponge $config_json
+	jq '.mnemonic = "'"$mnemonic"'"' $config_json | sponge $config_json
 	log_success "Set your controllor mnemonic: '$mnemonic' successfully"
 
 	local disk_size=""
@@ -49,7 +49,7 @@ config_set_all()
 		log_err "The disk_size should be integer in [1, 1048576]"
 		exit 1
 	fi
-	jq '.disk_size = "'$disk_size'"' $config_json | sponge $config_json
+	jq '.disk_size = "'"$disk_size"'"' $config_json | sponge $config_json
 	log_success "Set disk_size: '$disk_size' successfully"
 
 	local chain_data_dir=""
@@ -59,7 +59,7 @@ config_set_all()
 	if [[ ! -d "$chain_data_dir" ]]; then
 		log_err "The chain_data_dir is invalid"
 	fi
-	jq '.chain_data_dir = "'$chain_data_dir'"' $config_json | sponge $config_json
+	jq '.chain_data_dir = "'"$chain_data_dir"'"' $config_json | sponge $config_json
 	log_success "Set chain_data_dir: '$chain_data_dir' successfully"
 
 	local ipfs_data_dir=""
@@ -69,7 +69,7 @@ config_set_all()
 	if [[ ! -d "$ipfs_data_dir" ]]; then
 		log_err "The ipfs_data_dir is invalid"
 	fi
-	jq '.ipfs_data_dir = "'$ipfs_data_dir'"' $config_json | sponge $config_json
+	jq '.ipfs_data_dir = "'"$ipfs_data_dir"'"' $config_json | sponge $config_json
 	log_success "Set ipfs_data_dir: '$ipfs_data_dir' successfully"
 
 	local teaclave_data_dir=""
@@ -79,7 +79,7 @@ config_set_all()
 	if [[ ! -d "$teaclave_data_dir" ]]; then
 		log_err "The teaclave_data_dir is invalid"
 	fi
-	jq '.teaclave_data_dir = "'$teaclave_data_dir'"' $config_json | sponge $config_json
+	jq '.teaclave_data_dir = "'"$teaclave_data_dir"'"' $config_json | sponge $config_json
 	log_success "Set teaclave_data_dir: '$teaclave_data_dir' successfully"
 }
 

@@ -184,8 +184,8 @@ install()
 			;;
 		init)
 			install_depenencies
-			download_docker_images
 			config_set_all
+			download_docker_images
 			install_driver
 			;;
 		dcap)
