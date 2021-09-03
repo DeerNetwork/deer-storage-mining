@@ -35,6 +35,10 @@ exit 0
 }
 
 set_network() {
+	if ! { [ -x "$(command -v jq)" ] && [ -x "$(command -v sponge)" ]; }; then
+		log_info "----------Install depencies----------"
+		apt-get update && apt-get install -y jq moreutils
+	fi
 	network=$1
 	if [ x"$network" == x"mainnet" ] || [ x"$network" == x"testnet" ]; then
 		jq '.network = "'$network'"' $config_json | sponge $config_json
