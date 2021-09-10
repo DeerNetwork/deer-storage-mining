@@ -25,6 +25,7 @@ Usage:
 	start {all|chain|teaclave|worker|ipfs}		start your deer services
 	stop {all|chain|teaclave|worker|ipfs}		use docker kill to stop module
 	restart {chain|teaclave|worker|ipfs}		restart deer services
+	rotate-key 					rotate session keys
 	config						configure your deer 
 	network	{mainnet|testnet}			choose network
 	status						display the running status of all components
@@ -47,6 +48,10 @@ set_network() {
 		exit 1
 	fi
 	log_success "Set network: '$network' successfully"
+}
+
+rotate_key() {
+	curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
 }
 
 
@@ -73,6 +78,9 @@ case "$1" in
 		;;
 	status)
 		status $@
+		;;
+	rotate-key)
+		rotate_key
 		;;
 	update)
 		shift 1
