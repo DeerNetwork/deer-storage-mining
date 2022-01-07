@@ -14,6 +14,7 @@ source $scriptdir/status.sh
 source $scriptdir/stop.sh
 source $scriptdir/uninstall.sh
 source $scriptdir/update.sh
+source $scriptdir/sgx_test.sh
 
 help()
 {
@@ -32,6 +33,7 @@ Usage:
 	status						display the running status of all components
 	update {scripts|images|image}			update deer services
 	logs {chain|teaclave|worker|ipfs}		show services logs
+	sgx-test					start the mining test program
 EOF
 exit 0
 }
@@ -54,7 +56,6 @@ set_network() {
 rotate_key() {
 	curl -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "author_rotateKeys", "params":[]}' http://localhost:9933
 }
-
 
 case "$1" in
 	install)
@@ -92,6 +93,9 @@ case "$1" in
 		;;
 	uninstall)
 		uninstall
+		;;
+	sgx-test)
+		sgx_test
 		;;
 	*)
 		help

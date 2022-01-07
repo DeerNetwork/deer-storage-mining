@@ -34,6 +34,8 @@ download_docker_images()
 	res=$(($?|$res))
 	docker pull $(get_docker_image ipfs) 
 	res=$(($?|$res))
+	docker pull $(get_docker_image sgx-test) 
+	res=$(($?|$res))
 
 	if [ $res -ne 0 ]; then
 		log_err "----------Download docker images failed----------"
