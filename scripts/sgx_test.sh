@@ -2,19 +2,26 @@
 
 sgx_test() {
     image=$(get_docker_image sgx-test)
-	if [ ! -L /dev/sgx/enclave ]&&[ ! -L /dev/sgx/provision ]&&[ ! -c /dev/sgx_enclave ]&&[ ! -c /dev/sgx_provision ]&&[ ! -c /dev/isgx ]; then install_driver;fi
-	if [ -L /dev/sgx/enclave ]&&[ -L /dev/sgx/provision ]&&[ -c /dev/sgx_enclave ]&&[ -c /dev/sgx_provision ]&&[ ! -c /dev/isgx ]; then
-		docker run -ti --rm --name phala-sgx_detect --device /dev/sgx/enclave --device /dev/sgx/provision --device /dev/sgx_enclave --device /dev/sgx_provision $image
-	elif [ ! -L /dev/sgx/enclave ]&&[ -L /dev/sgx/provision ]&&[ -c /dev/sgx_enclave ]&&[ -c /dev/sgx_provision ]&&[ ! -c /dev/isgx ]; then
-		docker run -ti --rm --name phala-sgx_detect --device /dev/sgx/provision --device /dev/sgx_enclave --device /dev/sgx_provision $image
-	elif [ ! -L /dev/sgx/enclave ]&&[ ! -L /dev/sgx/provision ]&&[ -c /dev/sgx_enclave ]&&[ -c /dev/sgx_provision ]&&[ ! -c /dev/isgx ]; then
-		docker run -ti --rm --name phala-sgx_detect --device /dev/sgx_enclave --device /dev/sgx_provision $image
-	elif [ ! -L /dev/sgx/enclave ]&&[ ! -L /dev/sgx/provision ]&&[ ! -c /dev/sgx_enclave ]&&[ -c /dev/sgx_provision ]&&[ ! -c /dev/isgx ]; then
-		docker run -ti --rm --name phala-sgx_detect --device /dev/sgx_provision $image
-	elif [ ! -L /dev/sgx/enclave ]&&[ ! -L /dev/sgx/provision ]&&[ ! -c /dev/sgx_enclave ]&&[ ! -c /dev/sgx_provision ]&&[ -c /dev/isgx ]; then
-		docker run -ti --rm --name phala-sgx_detect --device /dev/isgx $image
+	devices=""
+	if [ -c /dev/isgx ]; then
+		devices=$devices" --device /dev/isgx"
+	fi
+	if [ -c /dev/sgx/enclave ]; then
+		devices=$devices" --device /dev/sgx/enclave"
+	fi
+	if [ -c /dev/sgx/provision ]; then
+		devices=$devices" --device /dev/sgx/provision"
+	fi
+	if [ -c /dev/sgx/sgx_enclave ]; then
+		devices=$devices" --device /dev/sgx/sgx_enclave"
+	fi
+	if [ -c /dev/sgx/sgx_provision ]; then
+		devices=$devices" --device /dev/sgx/sgx_provision"
+	fi
+	if [ -n "$devices" ]; then
+		docker run -ti --rm --name sgx-test  $devices $image
 	else
-		log_info "----------The driver file was not found, please check the driver installation logs!----------"
+		log_info "----------Maybe no sgx driver!----------"
 		exit 1
 	fi
 }
