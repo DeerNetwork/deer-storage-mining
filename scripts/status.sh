@@ -9,9 +9,11 @@ status()
 	ipfs_status=$(check_docker_status ipfs)
 
 	cat << EOF
-chain is ${node_status}, current block is ${node_block}
-teaclave is ${teaclave_status}
-worker is ${worker_status}
-ipfs is ${ipfs_status}
+| name     | status          
+| -------- | ------
+| chain    | ${node_status} ${node_block} 
+| teaclave | ${teaclave_status}                   
+| worker   | ${worker_status}                     
+| ipfs     | ${ipfs_status}                       
 EOF
 }

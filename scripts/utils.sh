@@ -5,7 +5,6 @@ service_images=(
 	"teaclave:deernetwork/deer-storage-teaclave"
 	"worker:deernetwork/deer-storage-worker"
 	"ipfs:deernetwork/go-ipfs"
-	"sgx-test:deernetwork/deer-sgx-detect"
 )
 
 echo_c()

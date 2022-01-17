@@ -14,12 +14,11 @@ source $scriptdir/status.sh
 source $scriptdir/stop.sh
 source $scriptdir/uninstall.sh
 source $scriptdir/update.sh
-source $scriptdir/sgx_test.sh
 
 help()
 {
 cat << EOF
-deer v1.1.0
+deer v1.2.0
 Usage:
 	help						show help information
 	install {init|isgx|dcap}			install your deer services
@@ -33,7 +32,6 @@ Usage:
 	status						display the running status of all components
 	update {scripts|images|image}			update deer services
 	logs {chain|teaclave|worker|ipfs}		show services logs
-	sgx-test					start the mining test program
 EOF
 exit 0
 }
@@ -93,9 +91,6 @@ case "$1" in
 		;;
 	uninstall)
 		uninstall
-		;;
-	sgx-test)
-		sgx_test
 		;;
 	*)
 		help
