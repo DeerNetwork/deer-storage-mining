@@ -18,7 +18,7 @@ source $scriptdir/update.sh
 help()
 {
 cat << EOF
-deer v1.2.0
+deer v1.2.1
 Usage:
 	help						show help information
 	install {init|isgx|dcap}			install your deer services
